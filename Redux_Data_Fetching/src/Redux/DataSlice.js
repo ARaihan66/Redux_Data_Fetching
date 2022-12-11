@@ -1,6 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-
+const fetchData = createAsyncThunk('DataSlice/fetchData', () => {
+    axios.get('')
+        .then((res) => {
+            console.log(res.data);
+            return res.data;
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+})
 const dataSlice = createSlice({
     name: "DataSlice",
     initialStateL: {
@@ -8,26 +17,13 @@ const dataSlice = createSlice({
         data: [],
         error: null
     },
-    reducers: {
-        request: (state) => {
-            state.isLoading = true
-            state.data = []
-            state.error = null
-        },
-        responseData: (state, action) => {
-            state.isLoading = false
-            state.data = action.payload
-            state.error = null
-        },
-        error: (state, action) => {
-            state.isLoading = false
-            state.data = []
-            state.error = action.payload
-        },
+    extraReducers: (builder) => {
 
     }
+
+}
 
 })
 
 export const { request, responseData, error } = dataSlice.actions;
-export default dataSlice.reducers
+export default dataSlice.reducers;
